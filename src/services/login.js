@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+
 export function isLogin() {
-    return false;
+    const user = firebase.auth().currentUser;
+    return user;
 }

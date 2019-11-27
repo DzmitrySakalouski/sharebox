@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -41,15 +42,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignInSide() {
+export default function SignInSide(props) {
     const classes = useStyles();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('dmitry89sokol@gmail.com');
+    const [password, setPassword] = useState('08061989');
+    const [shouldRemember, setShouldRemember] = useState(false)
 
     function logIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(res => console.log(res))
+            .then(res => {
+                if (shouldRemember) {
+                }
+                props.history.push('/')
+            })
             .catch(err => console.log(console.log(err)));
     }
 
@@ -90,6 +96,10 @@ export default function SignInSide() {
                             id="password"
                             autoComplete="current-password"
                             onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value={shouldRemember} color="primary" onChange={(e) => setShouldRemember(e.target.checked)} />}
+                            label="Remember me"
                         />
                         <Button
                             type="submit"
