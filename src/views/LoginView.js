@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
+import db from '../services/db';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,6 +54,11 @@ export default function SignInSide(props) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(res => {
                 if (shouldRemember) {
+                    const data = {
+                        email, password
+                    }
+
+                    db.insert(data, (err) => console.log(err))
                 }
                 props.history.push('/')
             })
