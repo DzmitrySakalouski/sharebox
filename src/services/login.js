@@ -1,6 +1,13 @@
 import firebase from 'firebase';
+import db from './db';
 
 export function isLogin() {
-    const user = firebase.auth().currentUser;
-    return user;
+    return new Promise((resolve, reject) => {
+        db.find({}, (err, res) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(res);
+        });
+    });
 }
