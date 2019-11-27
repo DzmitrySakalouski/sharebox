@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from 'firebase';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,6 +43,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignInSide() {
     const classes = useStyles();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    function logIn(e) {
+        e.preventDefault();
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(res => console.log(res))
+            .catch(err => console.log(console.log(err)));
+    }
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -59,16 +68,19 @@ export default function SignInSide() {
                     <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
+                            value={email}
                             margin="normal"
                             required
                             fullWidth
                             id="email"
-                            label="Login"
-                            name="login"
+                            label="Email"
+                            name="email"
                             autoFocus
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <TextField
                             variant="outlined"
+                            value={password}
                             margin="normal"
                             required
                             fullWidth
@@ -77,6 +89,7 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <Button
                             type="submit"
@@ -84,10 +97,11 @@ export default function SignInSide() {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={logIn}
                         >
                             Sign In
                         </Button>
-        
+
                     </form>
                 </div>
             </Grid>
