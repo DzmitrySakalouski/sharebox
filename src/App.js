@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { MainView } from './views/Dashboard';
-import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import LoginView from './views/LoginView';
 import firebase from 'firebase';
 import config from './Firebase';

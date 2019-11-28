@@ -1,8 +1,9 @@
 import React from 'react';
-import { DropzoneComponent } from '../components/dropzone/Dropzone';
 import firebase from 'firebase';
-import { Container } from '@material-ui/core';
 import { HeaderBar } from '../components/headerBar/HeaderBar';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { AllTracksTable } from '../components/allTracksTable/allTracksTable';
+import { AddNewTrack } from '../components/addTrack/addTrack';
 
 export class MainView extends React.Component {
   constructor(props) {
@@ -49,21 +50,23 @@ export class MainView extends React.Component {
     const { userData } = this.state;
 
     return (
-      <React.Fragment>
+      <div style={{ height: '100%', width: '100%' }}>
         {
           userData && (
             <React.Fragment>
               <HeaderBar user={userData} onLogOut={this.logOut} />
-              <Container fixed>
-                <h1>Hello</h1>
-                <h1>{this.state.userData && this.state.userData.displayName}</h1>
-                <DropzoneComponent />
-              </Container>
+                <BrowserRouter>
+                  <Switch>
+                    <Route path="/all_tracks"  component={AllTracksTable} />
+                    <Route path="/new_track" exact component={AddNewTrack} />
+                    <Route path="/track"  component={AllTracksTable} />
+                  </Switch>
+                </BrowserRouter>
             </React.Fragment>
           )
         }
 
-      </React.Fragment>
+      </div>
 
     );
   }
