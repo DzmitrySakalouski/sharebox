@@ -36,7 +36,7 @@ export function HeaderBar(props) {
             Second World Sharebox
           </Typography>
           <Avatar src={props.user.photoURL} />
-          <Button color="inherit">Log Out</Button>
+          <Button onClick={props.onLogOut} color="inherit">Log Out</Button>
         </Toolbar>
       </AppBar>
     </div>

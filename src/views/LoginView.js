@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
-import db from '../services/db';
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,20 +44,12 @@ export default function SignInSide(props) {
     const classes = useStyles();
     const [email, setEmail] = useState('dmitry89sokol@gmail.com');
     const [password, setPassword] = useState('08061989');
-    const [shouldRemember, setShouldRemember] = useState(false)
 
     function logIn(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(res => {
-                if (shouldRemember) {
-                    const data = {
-                        email, password
-                    }
-
-                    db.insert(data, (err) => console.log(err))
-                }
-                props.history.push('/')
+                props.history.push('/');
             })
             .catch(err => console.log(console.log(err)));
     }
@@ -71,13 +60,10 @@ export default function SignInSide(props) {
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <Container className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
                             value={email}
@@ -87,7 +73,6 @@ export default function SignInSide(props) {
                             id="email"
                             label="Email"
                             name="email"
-                            autoFocus
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <TextField
@@ -103,10 +88,6 @@ export default function SignInSide(props) {
                             autoComplete="current-password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value={shouldRemember} color="primary" onChange={(e) => setShouldRemember(e.target.checked)} />}
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -118,7 +99,7 @@ export default function SignInSide(props) {
                             Sign In
                         </Button>
 
-                    </form>
+                    </Container>
                 </div>
             </Grid>
         </Grid>
