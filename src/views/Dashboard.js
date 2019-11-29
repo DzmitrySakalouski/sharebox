@@ -56,14 +56,10 @@ export class MainView extends React.Component {
             <BrowserRouter>
               <HeaderBar user={userData} onLogOut={this.logOut} />
               <Home />
-
-              
-              
             </BrowserRouter>
           )
         }
       </div>
-
     );
   }
 

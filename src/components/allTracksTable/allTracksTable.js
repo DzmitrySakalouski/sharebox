@@ -91,12 +91,21 @@ export function AllTracksTable(props) {
             const items = [];
             querySnapshot.forEach(doc => {
                 console.log("doc=>", doc.data());
-                items.push(doc.data());
+                items.push({ ...doc.data(), id: doc.id });
             });
 
             setTracks(items);
         });
     }, [])
+
+    const renderLoader = () => {
+        return (
+            <div style={{ height: "100vh", display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
+            </div>
+        );
+    }
+
 
     return (
         <div className={classes.root}>
@@ -113,10 +122,10 @@ export function AllTracksTable(props) {
                     <GridList className={classes.gridList} cols={3}>
                         {tracks.map(tile => (
                             <GridListTile style={{ height: 'auto' }}>
-                                <TrackCard {...tile} />
+                                <TrackCard {...tile} {...props} />
                             </GridListTile>
                         ))}
-                    </GridList> : <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
+                    </GridList> : renderLoader()
             }
         </div>
     );

@@ -17,13 +17,18 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     formControl: {
-        marginTop: '20px'
+        margin: '20px'
     }
 }));
 
 export function NewTrackForm(props) {
     const classes = useStyles();
     const [name, setName] = useState('');
+
+    const handleCancel = () => {
+        props.history.push('/');
+    }
+
     const handleSave = () => {
         const user = firebase.auth().currentUser;
         const db = firebase.firestore().collection('tracks');
@@ -44,11 +49,11 @@ export function NewTrackForm(props) {
     return (
         <Container className={classes.root}>
             <Typography variant="h5">
-                Add new track
+                Создать новый трек
             </Typography>
             <TextField
                 className={classes.formControl}
-                label="Track name"
+                label="Название"
                 id="outlined-margin-none"
                 defaultValue={name}
                 fullWidth
@@ -56,7 +61,10 @@ export function NewTrackForm(props) {
                 variant="outlined"
             />
             <Button className={classes.formControl} color="primary" variant="contained" onClick={handleSave}>
-                Save
+                Создать
+            </Button>
+            <Button className={classes.formControl} color="secondary" variant="contained" onClick={handleCancel}>
+                Отмена
             </Button>
         </Container>
     );

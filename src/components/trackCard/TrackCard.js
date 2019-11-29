@@ -40,6 +40,10 @@ export function TrackCard(props) {
         return `${strs[0][0]}${strs[1][0]}`;
     }
 
+    const goToDetails = () => {
+        props.history.push(`/track/${props.id}`);
+    }
+
     return (
         <Paper className={classes.card}>
             <Container>
@@ -50,10 +54,10 @@ export function TrackCard(props) {
                     <Avatar>{getCreator(props.creator)}</Avatar>
                 </div>
                 <Typography>
-                    Created At: {getDate(date)}
+                    Создан: {getDate(date)}
                 </Typography>
                 <Typography>
-                    Updated At: {getDate(date)}
+                    Обновлён: {getDate(date)}
                 </Typography>
             </Container>
             <Container>
@@ -64,6 +68,7 @@ export function TrackCard(props) {
                     GTP: {props.gtp.length}
                 </Typography>
                 <Button
+                    onClick={goToDetails}
                     type="submit"
                     fullWidth
                     variant="contained"
