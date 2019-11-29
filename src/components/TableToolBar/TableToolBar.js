@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import Container from '@material-ui/core/Container';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     paper: {
         padding: theme.spacing(2),
@@ -20,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
+        maxHeight: 50
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -36,10 +41,9 @@ export const TableToolBar = (props) => {
         props.removeColumn(age);
     }
     return (
-        <Grid item xs={1}>
+        <Container maxWidth="lg" fixed>
             <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 color="primary"
                 onClick={handleDeleteColumn}>
@@ -62,6 +66,6 @@ export const TableToolBar = (props) => {
                     }
                 </Select>
             </FormControl>
-        </Grid >
+        </Container >
     )
 }

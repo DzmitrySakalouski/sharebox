@@ -324,13 +324,27 @@ export function Home() {
                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
+                                            {
+                                                columns.map((item, index) => {
+                                                    return (
+                                                        <TableCell 
+                                                            id={labelId}
+                                                            align={item.numeric ? "right" : "left"}
+                                                            component="th"
+                                                            scope="row"
+                                                        >
+                                                            {row[item.id]}
+                                                        </TableCell>
+                                                    )
+                                                })
+                                            }
+                                            {/* <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {row.name}
                                             </TableCell>
                                             <TableCell align="right">{row.calories}</TableCell>
                                             <TableCell align="right">{row.fat}</TableCell>
                                             <TableCell align="right">{row.carbs}</TableCell>
-                                            <TableCell align="right">{row.protein}</TableCell>
+                                            <TableCell align="right">{row.protein}</TableCell> */}
                                         </TableRow>
                                     );
                                 })}
