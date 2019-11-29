@@ -7,13 +7,12 @@ export function TrackDetails(props) {
     const [track, setTrack] = useState({});
     const id = props.match.params.id;
     const db = firebase.firestore();
+
     useEffect(() => {
         const documentRef = db.collection("tracks").doc(id);
         documentRef.get().then(doc => {
             if (doc.exists) {
                 setTrack({ ...doc.data() });
-
-                console.log({ ...doc.data() })
             }
         })
     }, []);
