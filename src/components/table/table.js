@@ -213,7 +213,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export function Home() {
+export function HomeTable() {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');

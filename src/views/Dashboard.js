@@ -2,10 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import { HeaderBar } from '../components/headerBar/HeaderBar';
 import { BrowserRouter } from 'react-router-dom';
-// import { AllTracksTable } from '../components/allTracksTable/allTracksTable';
-// import { AddNewTrack } from '../components/addTrack/addTrack';
 import { Home } from '../components/home/home';
-import { Container } from '@material-ui/core';
 
 export class MainView extends React.Component {
   constructor(props) {
@@ -50,16 +47,18 @@ export class MainView extends React.Component {
 
   render() {
     const { userData } = this.state;
+    const {classes} = this.props;
 
     return (
-      <div style={{ height: '100%', width: '100%' }}>
+      <div>
         {
           userData && (
             <BrowserRouter>
               <HeaderBar user={userData} onLogOut={this.logOut} />
-              <Container>
-                <Home />
-              </Container>
+              <Home />
+
+              
+              
             </BrowserRouter>
           )
         }
