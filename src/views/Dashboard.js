@@ -1,9 +1,11 @@
 import React from 'react';
 import firebase from 'firebase';
 import { HeaderBar } from '../components/headerBar/HeaderBar';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { AllTracksTable } from '../components/allTracksTable/allTracksTable';
-import { AddNewTrack } from '../components/addTrack/addTrack';
+import { BrowserRouter } from 'react-router-dom';
+// import { AllTracksTable } from '../components/allTracksTable/allTracksTable';
+// import { AddNewTrack } from '../components/addTrack/addTrack';
+import { Home } from '../components/home/home';
+import { Container } from '@material-ui/core';
 
 export class MainView extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export class MainView extends React.Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const user = firebase.auth().currentUser;
 
     this.setState({
@@ -30,7 +32,7 @@ export class MainView extends React.Component {
         name: user.displayName,
         email: user.email
       }
-    })
+    });
   }
 
   updateProfile = () => {
@@ -53,19 +55,14 @@ export class MainView extends React.Component {
       <div style={{ height: '100%', width: '100%' }}>
         {
           userData && (
-            <React.Fragment>
+            <BrowserRouter>
               <HeaderBar user={userData} onLogOut={this.logOut} />
-                <BrowserRouter>
-                  <Switch>
-                    <Route path="/all_tracks"  component={AllTracksTable} />
-                    <Route path="/new_track" exact component={AddNewTrack} />
-                    <Route path="/track"  component={AllTracksTable} />
-                  </Switch>
-                </BrowserRouter>
-            </React.Fragment>
+              <Container>
+                <Home />
+              </Container>
+            </BrowserRouter>
           )
         }
-
       </div>
 
     );
