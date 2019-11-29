@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Container, Typography } from '@material-ui/core';
 import firebase from 'firebase';
 import Loader from 'react-loader-spinner';
+import { NewTrackItem } from '../newTrackItem/NewTrackItem';
+import { Box } from '@material-ui/core';
 
 export function TrackDetails(props) {
     const [track, setTrack] = useState({});
@@ -22,6 +24,10 @@ export function TrackDetails(props) {
             <Typography>
                 {track.name}
             </Typography>
+            <Box>
+                <NewTrackItem />
+            </Box>
+            
         </Container>
     );
     const renderLoader = () => {

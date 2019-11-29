@@ -1,23 +1,30 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import { makeStyles } from '@material-ui/styles';
+import { Typography } from '@material-ui/core';
 
-export class DropzoneComponent extends React.Component {
-    onDrop = files => {
+const useStyles = makeStyles({
+    container: { width: 450, height: 350, border: "1px solid black" }
+});
+
+export function DropzoneComponent(props) {
+    const classes = useStyles();
+    const onDrop = files => {
         console.log(files);
     }
 
-    render() {
-        return (
-            <Dropzone onDrop={this.onDrop}>
-                {({ getRootProps, getInputProps }) => (
-                    <section>
-                        <div {...getRootProps()} style={{ width: 150, height: 150, border: "1px solid black" }}>
-                            <input {...getInputProps()} />
-                            <p>Drag 'n' drop some files here, or click to select files</p>
-                        </div>
-                    </section>
-                )}
-            </Dropzone>
-        );
-    }
+    return (
+        <Dropzone onDrop={onDrop}>
+            {({ getRootProps, getInputProps }) => (
+                <section>
+                    <div {...getRootProps()} className={classes.container}>
+                        <input {...getInputProps()} />
+                        <Typography>
+                            Перетяни файл сюда
+                        </Typography>
+                    </div>
+                </section>
+            )}
+        </Dropzone>
+    );
 }
