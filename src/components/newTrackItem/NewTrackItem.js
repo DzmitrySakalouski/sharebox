@@ -5,6 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { DropzoneComponent } from '../dropzone/Dropzone';
+import { Box } from '@material-ui/core';
+import { TrackEditForm } from '../trackEditForm/TrackEditForm';
 
 const types = [
     {
@@ -36,7 +38,7 @@ export function NewTrackItem(props) {
     }
 
     return (
-        <React.Fragment>
+        <Box>
         <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Тип</InputLabel>
             <Select
@@ -53,7 +55,7 @@ export function NewTrackItem(props) {
                 }
             </Select>
       </FormControl>
-      { selectedType && <DropzoneComponent /> }
-      </React.Fragment>
+      { selectedType && <TrackEditForm /> }
+      </Box>
     );
 }

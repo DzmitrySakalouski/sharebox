@@ -10,7 +10,7 @@ const useStyles = makeStyles({
 export function DropzoneComponent(props) {
     const classes = useStyles();
     const onDrop = files => {
-        console.log(files);
+        props.onDropFile(files);
     }
 
     return (

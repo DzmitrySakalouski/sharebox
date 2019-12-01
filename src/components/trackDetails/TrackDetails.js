@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Typography } from '@material-ui/core';
+import { Container, Typography, IconButton, Button } from '@material-ui/core';
 import firebase from 'firebase';
 import Loader from 'react-loader-spinner';
 import { NewTrackItem } from '../newTrackItem/NewTrackItem';
 import { Box } from '@material-ui/core';
+import { TrackData } from '../trackData/TrackData';
+import { makeStyles } from '@material-ui/styles';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+const useStyles = makeStyles({
+    title: {
+        margin: '20px 0 10px 0',
+    },
+    titleBox: {
+        display: 'flex',
+        justifyContent: 'space-etween',
+        alignItems: 'center'
+    }
+})
 
 export function TrackDetails(props) {
     const [track, setTrack] = useState({});
+    const [isEditMode, setEditMode] = useState(false);
     const id = props.match.params.id;
     const db = firebase.firestore();
+
+    const classes = useStyles();
 
     useEffect(() => {
         const documentRef = db.collection("tracks").doc(id);
@@ -19,13 +36,35 @@ export function TrackDetails(props) {
         })
     }, []);
 
+    const goBack = () => {
+        props.history.goBack();
+    }
+
+    const toggleEdit = () => {
+        setEditMode(!isEditMode);
+    }
+
     const renderContent = () => (
         <Container>
-            <Typography>
-                {track.name}
-            </Typography>
+            <Box className={classes.titleBox}>
+                <Box style={{ flexGrow: 1 }}>
+                    <IconButton onClick={goBack}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                </Box>
+                
+                <Typography variant="h5" className={classes.title}>
+                    {track.name}
+                </Typography>
+
+            </Box>
+           
             <Box>
-                <NewTrackItem />
+                <Button variant="contained" color="primary" onClick={toggleEdit}>Edit</Button>
+                {
+                    isEditMode ? <NewTrackItem /> : <TrackData track={track} />
+                }
+                
             </Box>
             
         </Container>
