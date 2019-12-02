@@ -3,6 +3,7 @@ import { Container, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { MediaList } from '../mediaList/MediaList';
 
+
 const useStyles = makeStyles({
     root: {
         display: 'flex',
@@ -19,7 +20,6 @@ const useStyles = makeStyles({
 export function TrackData(props) {
     const classes = useStyles();
     const {track} = props;
-    console.log('track => ', track);
 
     return (
         <Box className={classes.root}>
