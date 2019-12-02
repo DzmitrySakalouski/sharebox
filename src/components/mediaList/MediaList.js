@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Divider, Link } from '@material-ui/core';
+import { Box, Typography, Button, Divider, Link, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import firebase from 'firebase';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,9 +15,11 @@ const useStyles = makeStyles({
     },
     item: {
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
         margin: '12px 0'
+    },
+    title: {
+        flexGrow: 1
     }
 })
 
@@ -100,7 +102,7 @@ export function MediaList(props) {
                         return (
                             <React.Fragment>
                                 <Box className={classes.item}>
-                                    <Typography>{item.name}</Typography>
+                                    <Typography className={classes.title}>{item.name}</Typography>
                                     <Button onClick={() => handleDownloadFile(item.ref, item.name)}
                                         variant="contained" color="primary">Скачать</Button>
                                 </Box>

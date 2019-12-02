@@ -7,6 +7,10 @@ import { Box } from '@material-ui/core';
 import { TrackData } from '../trackData/TrackData';
 import { makeStyles } from '@material-ui/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import MessageIcon from '@material-ui/icons/Message';
+import EditIcon from '@material-ui/icons/Edit';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     title: {
@@ -14,7 +18,7 @@ const useStyles = makeStyles({
     },
     titleBox: {
         display: 'flex',
-        justifyContent: 'space-etween',
+        justifyContent: 'space-between',
         alignItems: 'center'
     }
 })
@@ -23,7 +27,7 @@ export function TrackDetails(props) {
     const [track, setTrack] = useState({});
     const [isEditMode, setEditMode] = useState(false);
     const id = props.match.params.id;
-    const db = firebase.firestore();
+    const db = firebase.firestore();    
 
     const classes = useStyles();
 
@@ -47,26 +51,29 @@ export function TrackDetails(props) {
     const renderContent = () => (
         <Container>
             <Box className={classes.titleBox}>
-                <Box style={{ flexGrow: 1 }}>
+                <Box style={{ flexBasis: 300, display: 'flex', padding: '10px 0', justifyContent: 'space-between' }}>
                     <IconButton onClick={goBack}>
                         <ArrowBackIcon />
                     </IconButton>
+                    <Link to={`/comments/${id}`}>
+                        <IconButton>
+                            <MessageIcon />
+                        </IconButton>
+                    </Link>
+                    
+                    <IconButton onClick={toggleEdit}>
+                        {isEditMode ? <ViewListIcon/> : <EditIcon />}
+                    </IconButton>
                 </Box>
-                
-                <Typography variant="h5" className={classes.title}>
-                    {track.name}
-                </Typography>
-
+                    <Typography variant="h5" className={classes.title}>
+                        {track.name}
+                    </Typography>
             </Box>
-           
             <Box>
-                <Button variant="contained" color="primary" onClick={toggleEdit}>Edit</Button>
                 {
                     isEditMode ? <NewTrackItem goBack={goBack} track={track} /> : <TrackData track={track} />
                 }
-                
             </Box>
-            
         </Container>
     );
     const renderLoader = () => {
