@@ -38,7 +38,8 @@ export function NewTrackForm(props) {
             creator: user.displayName,
             name,
             demos: [],
-            gtp: []
+            gtp: [],
+            comments: []
         }
 
         db.add(params).then(() => {

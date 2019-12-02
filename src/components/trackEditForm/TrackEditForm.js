@@ -47,6 +47,7 @@ export const TrackEditForm = (props) => {
         console.log(currentMediaItems);
         const docRef = firestore.collection('tracks').doc(id);
         const params = {
+            updatedAt: new Date(),
             [props.type]: [...currentMediaItems, { name: file.name, uploadedAt: new Date(), ref: `${props.type}/${file.name}` }]
         }
         if(comment) {

@@ -52,6 +52,7 @@ export const Comments = (props) => {
         const currentUser = firebase.auth().currentUser;
         const creator = currentUser.displayName;
         documentRef.update({
+            updatedAt: new Date(),
             comments: [...currentComments, {
                 creator,
                 text: comment

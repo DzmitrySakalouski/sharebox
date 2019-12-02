@@ -23,16 +23,21 @@ const useStyles = makeStyles({
     },
     btn: {
         marginTop: 5
+    },
+    text: {
+        fontSize: 15,
+        marginTop: 5
     }
 });
 
 export function TrackCard(props) {
     const classes = useStyles();
     const date = props.createdAt.toDate();
+    const updatedDate = props.updatedAt.toDate()
 
     const getDate = dateStamp => {
         const date = new Date(dateStamp);
-        return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+        return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} / ${date.getHours()}:${date.getMinutes()} `
     }
 
     const getCreator = creator => {
@@ -53,11 +58,11 @@ export function TrackCard(props) {
                     </Typography>
                     <Avatar>{getCreator(props.creator)}</Avatar>
                 </div>
-                <Typography>
+                <Typography className={classes.text}>
                     Создан: {getDate(date)}
                 </Typography>
-                <Typography>
-                    Обновлён: {getDate(date)}
+                <Typography className={classes.text}>
+                    Обновлён: {getDate(updatedDate)}
                 </Typography>
             </Container>
             <Container>
@@ -66,6 +71,9 @@ export function TrackCard(props) {
                 </Typography>
                 <Typography>
                     GTP: {props.gtp.length}
+                </Typography>
+                <Typography>
+                    Comments: {props.comments.length}
                 </Typography>
                 <Button
                     onClick={goToDetails}
