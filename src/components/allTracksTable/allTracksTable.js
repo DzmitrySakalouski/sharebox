@@ -84,13 +84,16 @@ export function AllTracksTable(props) {
     const classes = useStyles();
     const db = firebase.firestore();
     const [tracks, setTracks] = useState([]);
+    // TODO
+    const [comments, setComments] = useState(0);
+    const [demos, setDemos] = useState(0);
+    const [gtp, setGtp] = useState(0);
 
     useEffect(() => {
         db.collection('tracks').get().then(querySnapshot => {
             console.log(querySnapshot);
             const items = [];
             querySnapshot.forEach(doc => {
-                console.log("doc=>", doc.data());
                 items.push({ ...doc.data(), id: doc.id });
             });
 
