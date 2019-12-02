@@ -31,7 +31,7 @@ export function TrackDetails(props) {
         const documentRef = db.collection("tracks").doc(id);
         documentRef.get().then(doc => {
             if (doc.exists) {
-                setTrack({ ...doc.data() });
+                setTrack({ ...doc.data(), id });
             }
         })
     }, []);
@@ -62,7 +62,7 @@ export function TrackDetails(props) {
             <Box>
                 <Button variant="contained" color="primary" onClick={toggleEdit}>Edit</Button>
                 {
-                    isEditMode ? <NewTrackItem /> : <TrackData track={track} />
+                    isEditMode ? <NewTrackItem goBack={goBack} track={track} /> : <TrackData track={track} />
                 }
                 
             </Box>

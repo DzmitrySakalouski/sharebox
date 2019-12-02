@@ -11,7 +11,7 @@ import { TrackEditForm } from '../trackEditForm/TrackEditForm';
 const types = [
     {
         label: "Demo",
-        id: "demo"
+        id: "demos"
     },
     {
         label: "GTP tab",
@@ -55,7 +55,7 @@ export function NewTrackItem(props) {
                 }
             </Select>
       </FormControl>
-      { selectedType && <TrackEditForm /> }
+      { selectedType && <TrackEditForm goBack={props.goBack} type={selectedType} track={props.track} /> }
       </Box>
     );
 }

@@ -121,7 +121,7 @@ export function AllTracksTable(props) {
 
                     <GridList className={classes.gridList} cols={3}>
                         {tracks.map(tile => (
-                            <GridListTile style={{ height: 'auto' }}>
+                            <GridListTile key={tile.id} style={{ height: 'auto' }}>
                                 <TrackCard {...tile} {...props} />
                             </GridListTile>
                         ))}
