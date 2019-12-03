@@ -100,7 +100,7 @@ export function MediaList(props) {
                 {
                     items.map(item => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={item.ref}>
                                 <Box className={classes.item}>
                                     <Typography className={classes.title}>{item.name}</Typography>
                                     <Button onClick={() => handleDownloadFile(item.ref, item.name)}

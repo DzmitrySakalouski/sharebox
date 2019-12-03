@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 export function TrackData(props) {
     const classes = useStyles();
     const {track} = props;
+    console.log('track', track)
 
     return (
         <Box className={classes.root}>

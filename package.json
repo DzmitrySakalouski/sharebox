@@ -26,7 +26,8 @@
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
   },
   "build": {
     "appId": "second.world.share",
@@ -71,5 +72,6 @@
     "electron-builder": "^21.2.0",
     "electron-reload": "^1.5.0",
     "nodemon": "^2.0.1"
-  }
+  },
+  "proxy": "https://us-central1-mob-dby.cloudfunctions.net/"
 }

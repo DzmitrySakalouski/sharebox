@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Typography, IconButton, Button } from '@material-ui/core';
-import firebase from 'firebase';
 import Loader from 'react-loader-spinner';
 import { NewTrackItem } from '../newTrackItem/NewTrackItem';
 import { Box } from '@material-ui/core';
@@ -11,6 +10,8 @@ import MessageIcon from '@material-ui/icons/Message';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
     title: {
@@ -23,22 +24,11 @@ const useStyles = makeStyles({
     }
 })
 
-export function TrackDetails(props) {
-    const [track, setTrack] = useState({});
+function TrackDetailsComponent(props) {
     const [isEditMode, setEditMode] = useState(false);
     const id = props.match.params.id;
-    const db = firebase.firestore();    
 
     const classes = useStyles();
-
-    useEffect(() => {
-        const documentRef = db.collection("tracks").doc(id);
-        documentRef.get().then(doc => {
-            if (doc.exists) {
-                setTrack({ ...doc.data(), id });
-            }
-        })
-    }, []);
 
     const goBack = () => {
         props.history.goBack();
@@ -66,12 +56,12 @@ export function TrackDetails(props) {
                     </IconButton>
                 </Box>
                     <Typography variant="h5" className={classes.title}>
-                        {track.name}
+                        {props.track.name}
                     </Typography>
             </Box>
             <Box>
                 {
-                    isEditMode ? <NewTrackItem goBack={goBack} track={track} /> : <TrackData track={track} />
+                    isEditMode ? <NewTrackItem goBack={goBack} /> : <TrackData track={props.track} />
                 }
             </Box>
         </Container>
@@ -84,5 +74,12 @@ export function TrackDetails(props) {
         );
     };
 
-    return track ? renderContent() : renderLoader();
+    return props.track ? renderContent() : renderLoader();
 }
+
+const mapStateToProps = (state, ownProps) => {
+    const currentTrack = state.tracks.find(item => item.id === ownProps.match.params.id)
+    return {track: currentTrack};
+}
+
+export const TrackDetails = connect(mapStateToProps)(TrackDetailsComponent);

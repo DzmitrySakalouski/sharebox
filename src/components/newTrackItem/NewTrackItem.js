@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import { DropzoneComponent } from '../dropzone/Dropzone';
 import { Box } from '@material-ui/core';
 import { TrackEditForm } from '../trackEditForm/TrackEditForm';
+import { connect } from 'react-redux';
 
 const types = [
     {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export function NewTrackItem(props) {
+function NewTrackItemComponent(props) {
     const classes = useStyles();
     const [selectedType, setSelectedType] = useState('');
 
@@ -59,3 +60,10 @@ export function NewTrackItem(props) {
       </Box>
     );
 }
+
+const mapStateToProps = (state, ownProps) => {
+    const currentTrack = state.tracks.filter(item => item.id === ownProps.match.params.id)
+    return {track: currentTrack};
+}
+
+export const NewTrackItem = connect(mapStateToProps)(NewTrackItemComponent);

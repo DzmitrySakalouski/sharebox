@@ -32,11 +32,12 @@ const useStyles = makeStyles({
 
 export function TrackCard(props) {
     const classes = useStyles();
-    const date = props.createdAt.toDate();
-    const updatedDate = props.updatedAt.toDate()
+    console.log(props.createdAt._seconds)
+    const date = props.createdAt;
+    const updatedDate = props.updatedAt;
 
     const getDate = dateStamp => {
-        const date = new Date(dateStamp);
+        const date = new Date(dateStamp._seconds);
         return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} / ${date.getHours()}:${date.getMinutes()} `
     }
 

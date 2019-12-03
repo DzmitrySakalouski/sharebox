@@ -8,54 +8,9 @@ import Loader from 'react-loader-spinner';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
-
-const items = [
-    {
-        id: 1,
-        name: "Death track",
-        creator: "DS",
-        createdAt: new Date(2019, 7, 12),
-        apdatedAt: new Date(2019, 8, 14),
-        demos: [2],
-        gtp: [2, 2, 2]
-    },
-    {
-        id: 2,
-        name: "Ballad track",
-        creator: "DS",
-        createdAt: new Date(2019, 9, 4),
-        apdatedAt: new Date(2019, 8, 12),
-        demos: [],
-        gtp: [2, 2, 2, 2, 2, 2, 2]
-    },
-    {
-        id: 3,
-        name: "First track",
-        creator: "SS",
-        createdAt: new Date(2019, 10, 11),
-        apdatedAt: new Date(2019, 9, 12),
-        demos: [],
-        gtp: [2, 2, 2, 2]
-    },
-    {
-        id: 4,
-        name: "Second track",
-        creator: "DS",
-        createdAt: new Date(2019, 10, 12),
-        apdatedAt: new Date(2019, 7, 12),
-        demos: [1, 2, 3, 4, 5],
-        gtp: [2, 2]
-    },
-    {
-        id: 5,
-        name: "Dos track",
-        creator: "SS",
-        createdAt: new Date(2019, 10, 22),
-        apdatedAt: new Date(),
-        demos: [1, 5],
-        gtp: [2]
-    }
-];
+import axios from 'axios';
+import { getAllTracks } from '../../store/actions/trackActions';
+import {connect} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -80,25 +35,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export function AllTracksTable(props) {
+function AllTracksTableComponent(props) {
     const classes = useStyles();
-    const db = firebase.firestore();
-    const [tracks, setTracks] = useState([]);
-    // TODO
-    const [comments, setComments] = useState(0);
-    const [demos, setDemos] = useState(0);
-    const [gtp, setGtp] = useState(0);
+    const {tracks} = props;
 
     useEffect(() => {
-        db.collection('tracks').get().then(querySnapshot => {
-            console.log(querySnapshot);
-            const items = [];
-            querySnapshot.forEach(doc => {
-                items.push({ ...doc.data(), id: doc.id });
-            });
-
-            setTracks(items);
-        });
+        props.getTracks()
     }, [])
 
     const renderLoader = () => {
@@ -108,7 +50,6 @@ export function AllTracksTable(props) {
             </div>
         );
     }
-
 
     return (
         <div className={classes.root}>
@@ -133,3 +74,11 @@ export function AllTracksTable(props) {
         </div>
     );
 }
+
+const mapStateToProps = state => ({ tracks: state.tracks });
+
+const mapDispatchToProps = ({
+    getTracks: getAllTracks
+})
+
+export const AllTracksTable = connect(mapStateToProps, mapDispatchToProps)(AllTracksTableComponent);

@@ -25,19 +25,19 @@ class App extends React.Component {
     //   )
     // });
 
-    db.collection('tracks').onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(element => {
-        if (element.type === "added") {
-          console.log("New city: ", element);
-      }
-      if (element.type === "modified") {
-          console.log("Modified city: ", element);
-      }
-      if (element.type === "removed") {
-          console.log("Removed city: ", element);
-      }
-      });
-    })
+    // db.collection('tracks').onSnapshot(snapshot => {
+    //   snapshot.docChanges().forEach(element => {
+    //     if (element.type === "added") {
+    //       console.log("New city: ", element);
+    //   }
+    //   if (element.type === "modified") {
+    //       console.log("Modified city: ", element);
+    //   }
+    //   if (element.type === "removed") {
+    //       console.log("Removed city: ", element);
+    //   }
+    //   });
+    // })
 
     firebase.auth().onAuthStateChanged(authUser => {
       this.setState({ user: authUser, isLoading: false });
