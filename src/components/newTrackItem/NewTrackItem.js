@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function NewTrackItemComponent(props) {
+function NewTrackItemComponent(props) { // TODO передать сюда трек
     const classes = useStyles();
     const [selectedType, setSelectedType] = useState('');
 
