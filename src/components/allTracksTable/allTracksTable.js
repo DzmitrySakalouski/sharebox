@@ -75,7 +75,7 @@ function AllTracksTableComponent(props) {
     );
 }
 
-const mapStateToProps = state => ({ tracks: state.tracks });
+const mapStateToProps = state => ({ tracks: state.track.tracks });
 
 const mapDispatchToProps = ({
     getTracks: getAllTracks,

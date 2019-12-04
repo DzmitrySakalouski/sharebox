@@ -62,7 +62,7 @@ function NewTrackItemComponent(props) { // TODO передать сюда тре
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const currentTrack = state.tracks.filter(item => item.id === ownProps.match.params.id)
+    const currentTrack = state.track.tracks.filter(item => item.id === ownProps.match.params.id)
     return {track: currentTrack};
 }
 

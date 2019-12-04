@@ -78,7 +78,7 @@ function TrackDetailsComponent(props) {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const currentTrack = state.tracks.find(item => item.id === ownProps.match.params.id)
+    const currentTrack = state.track.tracks.find(item => item.id === ownProps.match.params.id)
     return {track: currentTrack};
 }
 

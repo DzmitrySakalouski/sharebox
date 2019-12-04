@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import config from './Firebase';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from 'react-loader-spinner';
+import { toggleLoader } from './store/actions/loader';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,34 +15,15 @@ class App extends React.Component {
     firebase.initializeApp(config);
     this.state = {
       user: null,
-      isLoading: true
     }
   }
 
   componentDidMount() {
-    const db = firebase.firestore();
-    // db.collection('tracks').onSnapshot(doc => {
-    //   doc.docChanges().forEach(item => {
-    //     console.log("++++++++++++", item.data()})
-    //   )
-    // });
-
-    // db.collection('tracks').onSnapshot(snapshot => {
-    //   snapshot.docChanges().forEach(element => {
-    //     if (element.type === "added") {
-    //       console.log("New city: ", element);
-    //   }
-    //   if (element.type === "modified") {
-    //       console.log("Modified city: ", element);
-    //   }
-    //   if (element.type === "removed") {
-    //       console.log("Removed city: ", element);
-    //   }
-    //   });
-    // })
-
+    console.log(this.props, 'app')
+    this.props.toggleLoader();
     firebase.auth().onAuthStateChanged(authUser => {
-      this.setState({ user: authUser, isLoading: false });
+      this.setState({ user: authUser });
+      this.props.toggleLoader();
     })
   }
 
@@ -52,21 +35,29 @@ class App extends React.Component {
 
   renderLoader = () => {
     return (
-      <div style={{ height: "100vh", display: 'flex', justifyContent: "center", alignItems: "center" }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, height: "100vh", width: '100vw', display: 'flex', justifyContent: "center", alignItems: "center" }}>
         <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
       </div>
     );    
   }
 
   render() {
-    const { isLoading } = this.state;
-
+    if (this.props.isLoading) {
+      this.renderLoader();
+      return;
+    }
     return (
       <div>
-        { isLoading ? this.renderLoader() : this.renderContent() }
+        { this.renderContent() }
       </div>
     )
   }
 }
 
-export default App;
+const mapStateToProps = state => ({isLoading: state.loader.isLoading});
+
+const mapDispatchToProps = dispatch => ({ toggleLoader });
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -94,6 +94,6 @@ const CommentsComponent = (props) => {
     );
 };
 
-const mapStateToProps = state => ({currentTrack: state.currentTrack});
+const mapStateToProps = state => ({currentTrack: state.track.currentTrack});
 
 export const Comments = connect(mapStateToProps)(CommentsComponent);
