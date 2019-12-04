@@ -29,10 +29,7 @@ export const TrackEditForm = (props) => {
 
     const [comment, setComment] = useState('');
 
-    console.log("TrackEditForm => ", props)
-
     const handleFileDrop = fileData => {
-        console.log(fileData);
         setFile(fileData[0]);
     }
 
@@ -44,7 +41,6 @@ export const TrackEditForm = (props) => {
         const dataRef = ref.child(`${props.type}/${file.name}`);
 
         const currentMediaItems = props.track[props.type];
-        console.log(currentMediaItems);
         const docRef = firestore.collection('tracks').doc(id);
         const params = {
             updatedAt: new Date(),

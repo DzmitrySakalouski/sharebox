@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { getAllTracks } from '../../store/actions/trackActions';
+import { getAllTracks, setCurrentTrack } from '../../store/actions/trackActions';
 import {connect} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
@@ -78,7 +78,8 @@ function AllTracksTableComponent(props) {
 const mapStateToProps = state => ({ tracks: state.tracks });
 
 const mapDispatchToProps = ({
-    getTracks: getAllTracks
-})
+    getTracks: getAllTracks,
+    setCurrentTrack
+});
 
 export const AllTracksTable = connect(mapStateToProps, mapDispatchToProps)(AllTracksTableComponent);

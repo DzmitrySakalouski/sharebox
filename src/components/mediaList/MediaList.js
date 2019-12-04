@@ -32,8 +32,6 @@ export function MediaList(props) {
     const storage = firebase.storage().ref();
     const [open, setOpen] = React.useState(false);
 
-    console.log(props.onFileDownload, "<==")
-
     const handleDownloadFile = (ref, name) => {
         setIsLoading(true);
         storage.child(ref).getDownloadURL().then(url => {

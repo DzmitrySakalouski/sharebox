@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Container, Avatar, Button } from '@material-ui/core';
+import { setCurrentTrack } from '../../store/actions/trackActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
     card: {
@@ -30,9 +32,8 @@ const useStyles = makeStyles({
     }
 });
 
-export function TrackCard(props) {
+function TrackCardComponent(props) {
     const classes = useStyles();
-    console.log(props.createdAt._seconds)
     const date = props.createdAt;
     const updatedDate = props.updatedAt;
 
@@ -47,6 +48,7 @@ export function TrackCard(props) {
     }
 
     const goToDetails = () => {
+        props.setCurrentTrack(props.id);
         props.history.push(`/track/${props.id}`);
     }
 
@@ -87,3 +89,9 @@ export function TrackCard(props) {
         </Paper>
     );
 }
+
+const mapDispatchToProps = ({
+    setCurrentTrack
+});
+
+export const TrackCard = connect(null, mapDispatchToProps)(TrackCardComponent);

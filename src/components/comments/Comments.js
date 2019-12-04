@@ -5,6 +5,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import firebase from 'firebase';
 import { Comment } from '../comment/comment';
 import SendIcon from '@material-ui/icons/Send';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
     header: {
@@ -23,15 +24,13 @@ const useStyles = makeStyles({
     }
 });
 
-export const Comments = (props) => {
+const CommentsComponent = (props) => {
     const [track, setTrack] = useState(null);
     const [comment, setComment] = useState('');
     const id = props.match.params.id;
     const db = firebase.firestore();    
 
     const classes = useStyles();
-
-    console.log(track)
 
     useEffect(() => {
         update();
@@ -45,12 +44,13 @@ export const Comments = (props) => {
             }
         })
     }
-
+console.log('CommentsComponent', props)
     const sendComment = () => {
         const currentComments = track.comments;
         const documentRef = db.collection("tracks").doc(id);
         const currentUser = firebase.auth().currentUser;
         const creator = currentUser.displayName;
+        
         documentRef.update({
             updatedAt: new Date(),
             comments: [...currentComments, {
@@ -93,7 +93,7 @@ export const Comments = (props) => {
                     </IconButton>
                 </Box>
                 {
-                    track && track.comments.reverse().map(item => {
+                    props.comments.reverse().map(item => {
                         return (
                             <Comment key={item.text + item.creator} text={item.text} creator={item.creator}/>
                         );
@@ -104,3 +104,7 @@ export const Comments = (props) => {
         </Container>
     );
 };
+
+const mapStateToProps = state => ({comments: state.currentTrack.comments});
+
+export const Comments = connect(mapStateToProps)(CommentsComponent);
