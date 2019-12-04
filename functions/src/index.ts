@@ -16,8 +16,6 @@ exports.getTracksData = functions.https.onRequest(async (req, res) => {
     const gtp = await getAllCollectionItems('gtp');
     const comments = await getAllCollectionItems('comments');
 
-    console.log(comments);
-
     const data: Array<any> = allTracks.map(item => {
         const cDemos = demos.filter(demo => demo.trackId === item.id);
         const cGtps = gtp.filter(gtp => gtp.trackId === item.id);
@@ -71,3 +69,23 @@ async function getAllCollectionItems (collectionName: String) {
 
     return items;
 }
+
+exports.sendComment = functions.https.onRequest(async (req, res) => {
+    const { creator, text, trackId } = req.body;
+    const firestore = admin.firestore();
+
+    const commentsRef = firestore.collection('comments');
+    commentsRef.add({ creator, text, trackId, createdAt: new Date() }).then(() => res.send('SUCCESS'));
+});
+
+exports.getAllTrackComments = functions.https.onRequest(async (req, res) => {
+    const {key} = req.body;
+    const firestore = admin.firestore();
+    const items: Array<any> = [];
+    const itemsRef = await firestore.collection('comments').where("trackId", "==", key).orderBy('createdAt', "desc").get();
+    itemsRef.forEach((item: any) => {
+        items.push({...item.data(), id: item.id})
+    });
+
+    res.send(items);
+});

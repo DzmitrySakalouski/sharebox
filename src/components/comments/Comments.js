@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import { Comment } from '../comment/comment';
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const useStyles = makeStyles({
     header: {
@@ -25,8 +26,8 @@ const useStyles = makeStyles({
 });
 
 const CommentsComponent = (props) => {
-    const [track, setTrack] = useState(null);
-    const [comment, setComment] = useState('');
+    const [allComments, setAllComments] = useState([]);
+    const [text, setText] = useState('');
     const id = props.match.params.id;
     const db = firebase.firestore();    
 
@@ -37,29 +38,17 @@ const CommentsComponent = (props) => {
     }, []);
 
     const update = () => {
-        const documentRef = db.collection("tracks").doc(id);
-        documentRef.get().then(doc => {
-            if (doc.exists) {
-                setTrack({ ...doc.data(), id });
-            }
-        })
+        axios.put('/getAllTrackComments', { key: props.currentTrack.id }).then(res => setAllComments(res.data));
     }
-console.log('CommentsComponent', props)
+
     const sendComment = () => {
-        const currentComments = track.comments;
-        const documentRef = db.collection("tracks").doc(id);
+        const trackId = props.currentTrack.id;
         const currentUser = firebase.auth().currentUser;
         const creator = currentUser.displayName;
-        
-        documentRef.update({
-            updatedAt: new Date(),
-            comments: [...currentComments, {
-                creator,
-                text: comment
-            }]
-        }).then(res => {
+
+        axios.post('/sendComment', { creator, text, trackId }).then(res => {
             update();
-            setComment('');
+            setText('');
         });
     }
 
@@ -73,7 +62,7 @@ console.log('CommentsComponent', props)
                 </Box>
                 
                 <Typography variant="h5">
-                    {track && track.name}
+                    {props.currentTrack.name}
                 </Typography>
             </Box>
             <Box>
@@ -84,18 +73,18 @@ console.log('CommentsComponent', props)
                     <TextField
                         label="Коммент"
                         id="outlined-margin-none"
-                        defaultValue={comment}
+                        value={text}
                         fullWidth
-                        onChange={e => setComment(e.target.value)}
+                        onChange={e => setText(e.target.value)}
                         variant="outlined" />
                     <IconButton style={{ margin: '0 5px'}} onClick={sendComment}>
                         <SendIcon />
                     </IconButton>
                 </Box>
                 {
-                    props.comments.reverse().map(item => {
+                    allComments && allComments.map(item => {
                         return (
-                            <Comment key={item.text + item.creator} text={item.text} creator={item.creator}/>
+                            <Comment key={item.id} text={item.text} creator={item.creator}/>
                         );
                     })
                 }
@@ -105,6 +94,6 @@ console.log('CommentsComponent', props)
     );
 };
 
-const mapStateToProps = state => ({comments: state.currentTrack.comments});
+const mapStateToProps = state => ({currentTrack: state.currentTrack});
 
 export const Comments = connect(mapStateToProps)(CommentsComponent);
