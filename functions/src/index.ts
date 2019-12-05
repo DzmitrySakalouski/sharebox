@@ -97,10 +97,15 @@ exports.sendMedia = functions.https.onRequest(async (req, res) => {
         ...media,
     });
 
-    if (media.comment) {
+    console.log('req =>' ,req.body);
+
+
+    if (req.body.comment) {
+        const { comment } = req.body;
+        console.log('comment =>' ,comment);
         const collerctionComment = admin.firestore().collection('comments');
         await collerctionComment.add({
-            ...media.cooment
+            ...comment
         });
     }
 

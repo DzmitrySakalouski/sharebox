@@ -33,19 +33,22 @@ const TrackEditFormComponent = (props) => {
 
     const uploadFile = () => {
         props.toggleLoader(true);
-        const id = props.trackId;
+        const id = props.track.id;
         const ref = storage.ref();
         const dataRef = ref.child(`${props.type}/${file.name}`);
+        const currentUser = firebase.auth().currentUser;
 
         const params = {
             updatedAt: new Date(),
             type: props.type,
-            media: { name: file.name, uploadedAt: new Date(), ref: `${props.type}/${file.name}` }
+            media: { name: file.name, uploadedAt: new Date(), trackId: id, ref: `${props.type}/${file.name}` }
         }
         if(comment) {
             params.comment = {
-                creator: props.track.creator,
-                text: comment
+                creator: currentUser.displayName,
+                text: comment,
+                trackId: id,
+                createdAt: new Date()
             }
         };
 
