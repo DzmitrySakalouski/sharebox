@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import { GridListTile, Box } from '@material-ui/core';
@@ -8,7 +7,6 @@ import Loader from 'react-loader-spinner';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { getAllTracks, setCurrentTrack } from '../../store/actions/trackActions';
 import {connect} from 'react-redux';
 

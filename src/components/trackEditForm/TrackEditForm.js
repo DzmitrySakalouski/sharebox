@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button, Box, Typography, TextField } from '@material-ui/core';
 import { DropzoneComponent } from '../dropzone/Dropzone';
 import { makeStyles } from '@material-ui/styles';
-import firebase from 'firebase'; // TODO add storage
-import Loader from 'react-loader-spinner';
+import firebase from 'firebase';
+import Axios from 'axios';
+import { connect } from 'react-redux';
+import { toggleLoader } from '../../store/actions/loader';
 
 const useStyles = makeStyles({
     root: {
@@ -15,17 +17,13 @@ const useStyles = makeStyles({
     },
 });
 
-export const TrackEditForm = (props) => {
+const TrackEditFormComponent = (props) => { 
     const storage = firebase.storage();
-    const firestore = firebase.firestore();
     const classes = useStyles();
     const [file, setFile] = useState({
         size: "",
         name: "",
     });
-
-    const [isMediaLoading, setMediaLoading] = useState(false);
-    const [isInstanceLoading, setInstanceLoading] = useState(false);
 
     const [comment, setComment] = useState('');
 
@@ -34,44 +32,31 @@ export const TrackEditForm = (props) => {
     }
 
     const uploadFile = () => {
-        setMediaLoading(true);
-        setInstanceLoading(true);
-        const {id} = props.track;
+        props.toggleLoader(true);
+        const id = props.trackId;
         const ref = storage.ref();
         const dataRef = ref.child(`${props.type}/${file.name}`);
 
-        const currentMediaItems = props.track[props.type];
-        const docRef = firestore.collection('tracks').doc(id);
         const params = {
             updatedAt: new Date(),
-            [props.type]: [...currentMediaItems, { name: file.name, uploadedAt: new Date(), ref: `${props.type}/${file.name}` }]
+            type: props.type,
+            media: { name: file.name, uploadedAt: new Date(), ref: `${props.type}/${file.name}` }
         }
         if(comment) {
-            params.comments = [...props.track.comments, {
+            params.comment = {
                 creator: props.track.creator,
                 text: comment
-            }]
+            }
         };
 
         const f1 = dataRef.put(file);
-        const f2 = docRef.update({
-            ...params
-        });
+        const f2 = Axios.post('/sendMedia', params)
 
         Promise.all([f1, f2]).then(() => {
-            setInstanceLoading(false);
-            setMediaLoading(false);
+            props.toggleLoader(false);
             props.goBack();
         })
     }
-
-    const renderLoader = () => {
-        return (
-            <div style={{ height: 350, display: 'flex', justifyContent: "center", alignItems: "center" }}>
-                <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
-            </div>
-        );
-    };
 
     const renderContent = () => (
         <Box className={classes.root}>
@@ -99,6 +84,10 @@ export const TrackEditForm = (props) => {
     );
 
     return (
-        isInstanceLoading || isMediaLoading ? renderLoader() : renderContent()
+        renderContent()
     )
 }
+
+const mapDispatchToProps = dispatch => ({toggleLoader: (isLoading) => dispatch(toggleLoader(isLoading))});
+
+export const TrackEditForm = connect(null, mapDispatchToProps)(TrackEditFormComponent);

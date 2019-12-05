@@ -7,7 +7,7 @@ export function preloaderReducer(state = initialState, action) {
     switch (action.type) {
         case TOGGLE_PRELOADER:
             return {
-                isLoading: !state.isLoading
+                isLoading: action.payload
             }
     
         default:

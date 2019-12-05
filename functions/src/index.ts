@@ -89,3 +89,20 @@ exports.getAllTrackComments = functions.https.onRequest(async (req, res) => {
 
     res.send(items);
 });
+
+exports.sendMedia = functions.https.onRequest(async (req, res) => {
+    const { type, media } = req.body;
+    const collection = admin.firestore().collection(type);
+    await collection.add({
+        ...media,
+    });
+
+    if (media.comment) {
+        const collerctionComment = admin.firestore().collection('comments');
+        await collerctionComment.add({
+            ...media.cooment
+        });
+    }
+
+    res.send('SUCCESS');
+});

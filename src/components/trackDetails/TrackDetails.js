@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Typography, IconButton, Button } from '@material-ui/core';
-import Loader from 'react-loader-spinner';
+import React, { useState } from 'react'
+import { Container, Typography, IconButton } from '@material-ui/core';
 import { NewTrackItem } from '../newTrackItem/NewTrackItem';
 import { Box } from '@material-ui/core';
 import { TrackData } from '../trackData/TrackData';
@@ -10,7 +9,6 @@ import MessageIcon from '@material-ui/icons/Message';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -61,20 +59,13 @@ function TrackDetailsComponent(props) {
             </Box>
             <Box>
                 {
-                    isEditMode ? <NewTrackItem goBack={goBack} /> : <TrackData track={props.track} />
+                    isEditMode ? <NewTrackItem track={props.track.id} goBack={goBack} /> : <TrackData track={props.track} />
                 }
             </Box>
         </Container>
     );
-    const renderLoader = () => {
-        return (
-            <div style={{ height: "100vh", display: 'flex', justifyContent: "center", alignItems: "center" }}>
-                <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
-            </div>
-        );
-    };
 
-    return props.track ? renderContent() : renderLoader();
+    return renderContent();
 }
 
 const mapStateToProps = (state, ownProps) => {

@@ -5,6 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import Loader from 'react-loader-spinner';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,12 +20,34 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  loader: { 
+    backgroundColor: 'white', 
+    position: 'fixed', 
+    top: 0, 
+    left: 0, 
+    height: "100vh", 
+    width: '100vw', 
+    display: 'flex', 
+    justifyContent: "center", 
+    alignItems: "center",
+    zIndex: 5000
+  }
 }));
 
-export function HeaderBar(props) {
+function HeaderBarComponent(props) {
   const classes = useStyles();
 
-  console.log(props, " +++++++++ ")
+  const renderLoader = () => {
+    return (
+      <div className={classes.loader}>
+        <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
+      </div>
+    );    
+  }
+
+  if (props.isLoading) {
+    return renderLoader();
+  }
 
   return (
     <div className={classes.root}>
@@ -39,3 +63,7 @@ export function HeaderBar(props) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({ isLoading: state.loader.isLoading });
+
+export const HeaderBar = connect(mapStateToProps)(HeaderBarComponent);

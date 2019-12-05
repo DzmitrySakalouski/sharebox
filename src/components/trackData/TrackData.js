@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { MediaList } from '../mediaList/MediaList';

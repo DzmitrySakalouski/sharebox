@@ -20,10 +20,10 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log(this.props, 'app')
-    this.props.toggleLoader();
+    this.props.toggleLoader(true);
     firebase.auth().onAuthStateChanged(authUser => {
       this.setState({ user: authUser });
-      this.props.toggleLoader();
+      this.props.toggleLoader(false);
     })
   }
 
@@ -33,19 +33,7 @@ class App extends React.Component {
       : <LoginView />
   )
 
-  renderLoader = () => {
-    return (
-      <div style={{ position: 'absolute', top: 0, left: 0, height: "100vh", width: '100vw', display: 'flex', justifyContent: "center", alignItems: "center" }}>
-        <Loader type="ThreeDots" color="#somecolor" height={80} width={80} />
-      </div>
-    );    
-  }
-
   render() {
-    if (this.props.isLoading) {
-      this.renderLoader();
-      return;
-    }
     return (
       <div>
         { this.renderContent() }

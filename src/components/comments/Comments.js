@@ -7,6 +7,8 @@ import { Comment } from '../comment/comment';
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { getAllTracks } from '../../store/actions/trackActions';
+import { toggleLoader } from '../../store/actions/loader';
 
 const useStyles = makeStyles({
     header: {
@@ -27,9 +29,7 @@ const useStyles = makeStyles({
 
 const CommentsComponent = (props) => {
     const [allComments, setAllComments] = useState([]);
-    const [text, setText] = useState('');
-    const id = props.match.params.id;
-    const db = firebase.firestore();    
+    const [text, setText] = useState('');   
 
     const classes = useStyles();
 
@@ -42,13 +42,17 @@ const CommentsComponent = (props) => {
     }
 
     const sendComment = () => {
+        props.toggleLoader(true);
         const trackId = props.currentTrack.id;
         const currentUser = firebase.auth().currentUser;
         const creator = currentUser.displayName;
 
+
         axios.post('/sendComment', { creator, text, trackId }).then(res => {
             update();
             setText('');
+            props.getAllTracks();
+            props.toggleLoader(false);
         });
     }
 
@@ -95,5 +99,6 @@ const CommentsComponent = (props) => {
 };
 
 const mapStateToProps = state => ({currentTrack: state.track.currentTrack});
+const mapDispatchToProps = dispatch => ({ getAllTracks, toggleLoader: (isLoading) => dispatch(toggleLoader(isLoading)) });
 
-export const Comments = connect(mapStateToProps)(CommentsComponent);
+export const Comments = connect(mapStateToProps, mapDispatchToProps)(CommentsComponent);

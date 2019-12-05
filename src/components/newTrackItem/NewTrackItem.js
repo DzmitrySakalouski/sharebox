@@ -4,7 +4,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { DropzoneComponent } from '../dropzone/Dropzone';
 import { Box } from '@material-ui/core';
 import { TrackEditForm } from '../trackEditForm/TrackEditForm';
 import { connect } from 'react-redux';
@@ -30,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function NewTrackItemComponent(props) { // TODO передать сюда трек
+function NewTrackItemComponent(props) {
     const classes = useStyles();
     const [selectedType, setSelectedType] = useState('');
 
@@ -48,7 +47,6 @@ function NewTrackItemComponent(props) { // TODO передать сюда тре
                 value={selectedType}
                 onChange={handleChange}
             >
-                {/* <MenuItem value={10}>Ten</MenuItem> */}
                 {
                     types.map(item => {
                         return (<MenuItem value={item.id} key={item.id}>{item.label}</MenuItem>)
@@ -61,9 +59,6 @@ function NewTrackItemComponent(props) { // TODO передать сюда тре
     );
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const currentTrack = state.track.tracks.filter(item => item.id === ownProps.match.params.id)
-    return {track: currentTrack};
-}
+const mapStateToProps = state => ({ track: state.track.currentTrack })
 
 export const NewTrackItem = connect(mapStateToProps)(NewTrackItemComponent);
