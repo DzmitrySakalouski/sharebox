@@ -16,6 +16,10 @@ const types = [
     {
         label: "GTP tab",
         id: 'gtp'
+    },
+    {
+        label: "Photo/video",
+        id: 'media'
     }
 ];
 

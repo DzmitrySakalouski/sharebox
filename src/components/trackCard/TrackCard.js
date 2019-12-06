@@ -8,14 +8,14 @@ const useStyles = makeStyles({
     card: {
         width: 250,
         margin: 20,
-        height: 250,
+        height: 300,
         padding: 20,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
     media: {
-        height: 140,
+        height: 180,
     },
     header: {
         display: 'flex',
@@ -77,6 +77,9 @@ function TrackCardComponent(props) {
                 </Typography>
                 <Typography>
                     Comments: {props.comments.length}
+                </Typography>
+                <Typography>
+                    Media: {props.media.length}
                 </Typography>
                 <Button
                     onClick={goToDetails}

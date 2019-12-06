@@ -7,7 +7,8 @@ import { MediaList } from '../mediaList/MediaList';
 const useStyles = makeStyles({
     root: {
         display: 'flex',
-        padding: '20px 0 20px 0'
+        padding: '20px 0 20px 0',
+        overflowX: 'scroll'
     },
     mediaContainer: {
         width: '40%'
@@ -34,6 +35,12 @@ export function TrackData(props) {
                     Tabs
                 </Typography>
                 { track && track.gtp && <MediaList items={track.gtp} /> }
+            </Container>
+            <Container className={classes.mediaContainer}>
+                <Typography variant="h6">
+                    Media
+                </Typography>
+                { track && track.media && <MediaList items={track.media} /> }
             </Container>
         </Box>
     );

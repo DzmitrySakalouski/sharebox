@@ -15,16 +15,19 @@ exports.getTracksData = functions.https.onRequest(async (req, res) => {
     const demos = await getAllCollectionItems('demos');
     const gtp = await getAllCollectionItems('gtp');
     const comments = await getAllCollectionItems('comments');
+    const medias = await getAllCollectionItems('media');
 
     const data: Array<any> = allTracks.map(item => {
         const cDemos = demos.filter(demo => demo.trackId === item.id);
         const cGtps = gtp.filter(gtp => gtp.trackId === item.id);
         const cComments = comments.filter(comment => comment.trackId === item.id);
+        const cMedia = medias.filter(media => media.trackId === item.id);
         return {
             ...item,
             demos: cDemos,
             gtp: cGtps,
             comments: cComments,
+            media: cMedia,
         }
     })
 
