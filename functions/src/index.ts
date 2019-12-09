@@ -105,7 +105,6 @@ exports.sendMedia = functions.https.onRequest(async (req, res) => {
 
     if (req.body.comment) {
         const { comment } = req.body;
-        console.log('comment =>' ,comment);
         const collerctionComment = admin.firestore().collection('comments');
         await collerctionComment.add({
             ...comment
@@ -113,4 +112,13 @@ exports.sendMedia = functions.https.onRequest(async (req, res) => {
     }
 
     res.send('SUCCESS');
+});
+
+exports.createNewTrack = functions.https.onRequest(async (req, res) => {
+    const { createdAt = new Date(), creator, name, updatedAt = new Date() } = req.body;
+    const trackCollection = admin.firestore().collection('tracks'); 
+    await trackCollection.add({
+        createdAt, creator, name, updatedAt
+    });
+    res.send("SUCCESS");
 });
