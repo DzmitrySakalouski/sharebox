@@ -38,7 +38,7 @@ function TrackCardComponent(props) {
     const updatedDate = props.updatedAt;
 
     const getDate = dateStamp => {
-        const date = new Date(dateStamp._seconds);
+        const date = new Date(dateStamp);
         return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} / ${date.getHours()}:${date.getMinutes()} `
     }
 
